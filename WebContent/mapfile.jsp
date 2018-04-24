@@ -13,7 +13,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
  </script>
- <script src="http://maps.googleapis.com/maps/api/js?key=####################&sensor=false" type="text/javascript"></script>
+ <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAHjgFXZPw-mYg9LTqKz51NK1ADWU9aQsc&sensor=false" type="text/javascript"></script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHjgFXZPw-mYg9LTqKz51NK1ADWU9aQsc&callback=initMap">
     </script>
@@ -33,7 +33,7 @@
     min-width: 320px;
     min-height: 264px;
     position: fixed;
-    overflow: hidden;
+    overflow: z;
     margin: 0px;
     padding: 0px;
     font: normal 14px Helvetica Neue, Arial, sans-serif;
@@ -93,8 +93,7 @@
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
         #flight-image{
-                min-height:20% ;
-    max-height: 20%;
+                height:10%;
    
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -135,46 +134,45 @@
     right: 2px;
     
 }
-
+.table { width: 100%; }
 .navbar-inverse {
     background-color: #222;
     border-color: #080808;
-    margin-top: -50%;
+    margin-top: -675px;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
     height: 2%;
 }
-
 .navbar-inverse1 {
       float: left;
     background-color: #222;
     border-color: #080808;
     margin-top: -21px;
-    min-height: 690px;
-    max-height: 690px;
-     margin-left: -20%;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    width: 23.5%;
-    font-color:white;
-}
-
-.navbar-inverse2 {
-      float: left;
-    background-color: #222;
-    border-color: #080808;
-    margin-top: -21px;
-    min-height: 710px;
-    max-height: 710px;  
+    min-height: 625px;
+    max-height: 630px;
+       margin-left: -20%;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
     width: 20%;
     font-color:white;
 }
+.navbar-inverse2 {
+      float: left;
+    background-color: #222;
+    border-color: #080808;
+    margin-top: -21px;
+    min-height: 625px;
+    max-height: 630px;
+   
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    width: 20%;
+    font-color:white;
 }
+
 #toleft #toright{
   margin-top: 370px;
 }
@@ -208,12 +206,7 @@ background-color: #00000;
 
 }
     </style>
-    
-</head>
-<body onload="loadJSON()">
-  
-  <div id="map" style="width:500px;height:500px;"></div>
-  
+      
     <script>
     window.onload = function () {
 
@@ -391,7 +384,30 @@ chart.render();
         center:{lat:13.367987,lng:77.835677}
 
       }
-
+/*$.get("Adsbjson",function(data,status){
+		//console.log("from ajson")
+		$.get("AdsbServ",function(data1,status){
+		var n=JSON.stringify(data1);
+		n=JSON.parse(n);
+		//console.log("lala" + n);
+		var m=JSON.stringify(data);
+		m=JSON.parse(m);
+		
+	
+	var val;
+	for(var i in n){
+		for(var j in m){
+			if(n[i].hex==m[j].hex){
+			val+={"lat":parseFloat(m[j].lat),"lng":parseFloat(m[j].lng)}+','
+			}
+		
+		}
+		coord=[val];
+		console.log(i);
+	}
+		});
+		});
+	*/
       // New map
       var map = new google.maps.Map(document.getElementById('map'), options);
         var opt = { minZoom: 2, maxZoom: 9 };
@@ -404,11 +420,17 @@ nite.init(map);
     });
     google.maps.event.trigger(map, 'resize');
 });		var fimg;
-		var image1='./images/plane.png';
-        var image2='./images/plane2.png';
+		//var image1='./images/plane.png';
+        
         var image3='./images/AA.jpg';
-        var image4='./images/planeee.png';
-        var image5='./images/plane22.png';
+        
+        //var image5='./images/plane22.png';
+        var image1={url: "./images/airplane.svg",
+    	        anchor: new google.maps.Point(0,0),
+    	        scaledSize: new google.maps.Size(20,20)}
+        var image5={url: "./images/redairplane.svg",
+    	        anchor: new google.maps.Point(0,0),
+    	        scaledSize: new google.maps.Size(20,20)}
      var url= 'https://rawgit.com/tdreyno/4278655/raw/7b0762c09b519f40397e4c3e100b097d861f5588/airports.json';
        // var url = "https://raw.githubusercontent.com/test/Utility/ScheduleTest.json";
        $("#searchBtn").click(function(){
@@ -464,48 +486,91 @@ nite.init(map);
 		
       }
      }
-
-       
-   
-
-     			 $.get("AdsbServ", function(data, status){
+      
+    	
+    	 
+    		  		
+     $.get("AdsbServ", function(data, status){
      				var markers=eval("("+data+")");
      	              console.log(markers);
      	              console.log(markers.length);
      	              for(var i in markers){
      	                 // Add marker
-     	                 console.log(markers[i]);
-     	                 addMarker(markers[i]);
+     	                 if(i%2==0){
+     	                 console.log(markers.length);
+     	                 addMarker(markers[i],0);
+     	                 }
+     	                 else{
+        	                 console.log(markers.length);
+        	                 addMarker(markers[i],1);
+        	                 }
      	               }
-     	          });
-     	         
-     
+     	   });
+     	 
 		var count=0;
 		var prehex=" ";
 		var curhex=" ";
-      function addMarker(props){
+      function addMarker(props,j){
    console.log("add marker called");
   	
-   
-         //  console.log(props.coords.length);
+  /* var image1 = new google.maps.MarkerImage('./images/plane.png',
+           new google.maps.Size(30, 30),
+           new google.maps.Point(0, 0),
+           new google.maps.Point(15, 15));*/
+        
        // for(var j=0;j<props.coords.length;j++){
-       var coords={"lat":props.lat,"lng":props.lng}
-			console.log(props.lat+""+props.lng+"  ");
+       var coords=[{"lat":props.lat,"lng":props.lng}]
+			console.log(coords);
       // image1='./images/plane.png';
-       
+       if(j==1){
     	   var marker = new google.maps.Marker({
         	//ar iconImage
-          position:coords,
+          position:coords[0],
           map:map,
-          icon:image1
+          
+          icon:{url: "./images/sw.svg",
+	        anchor:  new google.maps.Point(15, 15),
+	        scaledSize: new google.maps.Size(30,30)}
         // Check for customicon
       });
-
-      //  prehex=curhex;
-        if(props.iconImage){
-          // Set icon image
-          marker.setIcon(props.iconImage);
+       }
+       else{
+    	   var marker = new google.maps.Marker({
+       
+       	//ar iconImage
+           position:coords[0],
+           map:map,
+           
+           icon:{url: "./images/nw.svg",
+        	   anchor:  new google.maps.Point(15, 15),
+   	        scaledSize: new google.maps.Size(30,30)}
+         // Check for customicon
+       });
         }
+    	   var counter = 0;
+    	   interval = window.setInterval(function() { 
+    	     counter++;
+    	     if(props.speed!=0) {
+    	     // just pretend you were doing a real calculation of 14.4426° N, 79.9865° E
+    	     // new position along the complex path 37.8136° S, 144.9631° E
+    	     if(j==0){
+    	    	 
+    	     
+    	     props.lat=props.lat+(1/10000),props.lng=props.lng-(1/10000);
+    	     coords=[{"lat":props.lat,"lng":props.lng},{"lat":37.8136,"lng":144.9631}]
+    	     }
+    	     else{ props.lat=props.lat-(1/20000),props.lng=props.lng-(1/20000);
+    	   coords=[{"lat":props.lat,"lng":props.lng},{"lat":14.4426,"lng":79.9865}]}
+    	     var pos = new google.maps.LatLng(props.lat, props.lng);
+    	     marker.setPosition(pos);
+    	     
+    	     if (counter >= 6) {
+    	       window.clearInterval(interval);   
+    	     }
+    	     }
+    	   }, 100);
+      //  prehex=curhex;
+        
         // Check content
         if(props.name){
           var infoWindow = new google.maps.InfoWindow({
@@ -514,12 +579,35 @@ nite.init(map);
           });
         
        google.maps.event.addListener(marker, 'mouseover', function(){
-              marker.setIcon(image5);
+           var i;
+    	   if(j==1){
+    	  i= {url: "./images/swr.svg",
+    			  anchor:  new google.maps.Point(15, 15),
+    		        scaledSize: new google.maps.Size(30,30)}}
+    	   else{
+    		 i=  {url: "./images/nvr.svg",
+    	   
+    				 anchor:  new google.maps.Point(15, 15),
+    			        scaledSize: new google.maps.Size(30,30)}
+    		 }
+    			   marker.setIcon(i);
            infoWindow.open(map, marker);
           });
         google.maps.event.addListener(marker, 'mouseout', function(){
-            infoWindow.close(map, marker);
-            marker.setIcon(image1);
+        	var i;
+     	   if(j==1){
+     	  i= {url: "./images/sw.svg",
+     			 anchor:  new google.maps.Point(15, 15),
+     	        scaledSize: new google.maps.Size(30,30)}}
+     	   else{
+     		 i=  {url: "./images/nv.svg",
+     	   
+     				anchor:  new google.maps.Point(15, 15),
+     		        scaledSize: new google.maps.Size(30,30)}
+     		 }
+     			   marker.setIcon(i);
+     			   infoWindow.close(map, marker);
+            
           });
           
           var change;
@@ -592,7 +680,7 @@ nite.init(map);
               img1.src=fimg;
             //  console.log(props.content);
               var flightPath = new google.maps.Polyline({
-          path: [props.lng,props.lat],
+          path: coords,
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
@@ -602,7 +690,7 @@ nite.init(map);
 		           flightPath.setMap(null);
 		});
                flightPath.setMap(map);
-              var information=document.getElementsByTagName("H1")[0];
+              var information=document.getElementsByTagName("H3")[0];
                 information.innerHTML=props.name;
           });
           google.maps.event.addListener(marker,'mouseout',function(){
@@ -614,12 +702,10 @@ nite.init(map);
        }
       }
 
-    }var count=0;
-    $.get("AdsbServ", function(data, status){
-    	count++;	
-    
-       // alert("Data: " + count + "\nStatus: " + status);
-    });
+    }
+    function clearMarkers() {
+        setMapOnAll(null);
+      }
   function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
   }
@@ -657,6 +743,12 @@ window.onclick = function(event) {
 }
 
 </script>
+</head>
+<body>
+  
+ 
+
+ <div id="map" style="overlay:visible;"></div>
  <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -719,7 +811,7 @@ window.onclick = function(event) {
 <!-- side div part -->
   <nav class="navbar navbar-inverse1" style="opacity:0.0" >
     <div id="toleft" style="float:left; ">
-        <h1 style="color:white"> </h1>
+        <h3 style="color:white"> </h3>
       </div>
     <img id="flight-image" src="" alt="flight image"/>
     <br>
@@ -757,12 +849,12 @@ window.onclick = function(event) {
 		 </tr>
 		 
 		 <tr style="background-color:#78909C">
-		 <th rowspan=1 > SPEED :</th><td style="background-color:#CFD8DC" id="fspeed">400</td>
+		 <th rowspan=1 > SPEED :</th><td style="background-color:#CFD8DC" id="fspeed"></td>
 		 <th rowspan=1 > MODE-S code : </th><td style="background-color:#CFD8DC" id="fhex"></td>
 		 </tr>
 		
 	  </table>
-	  <div id="chartContainer" style="height: 175px; width: 100%;"></div>
+	  <div id="chartContainer" style="height: 150px; width: 100%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 </nav>
